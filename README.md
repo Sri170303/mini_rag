@@ -1,7 +1,7 @@
 # Mini RAG Application
 
 A simple Retrieval-Augmented Generation (RAG) application built with Streamlit, LangChain, and Ollama for local document querying.
-
+Deployed on AWS:  [](http://54.211.81.164:8501/) 
 ## Models Used
 
 ### Embedding Model: `nomic-embed-text`
