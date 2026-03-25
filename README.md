@@ -76,7 +76,7 @@ source .venv/bin/activate
 ### 3. Install Python dependencies
 
 ```bash
-pip install streamlit langchain langchain-ollama langchain-community langchain-text-splitters chromadb requests
+pip install streamlit langchain langchain-ollama langchain-community langchain-text-splitters chromadb requests "unstructured[md]"
 ```
 
 ### 4. Pull required Ollama models
