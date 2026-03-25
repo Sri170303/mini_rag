@@ -62,7 +62,7 @@ This approach ensures that all responses are directly supported by the retrieved
 ### 1. Clone and enter repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Sri170303/mini_rag
 cd mini_rag
 ```
 
