@@ -52,56 +52,51 @@ with st.sidebar:
             st.error(f"❌ Error processing documents: {e}")
 
 # Main area
-col1, col2 = st.columns([1, 1])
+if 'qa_history' not in st.session_state:
+    st.session_state.qa_history = []
+    # Add default first message
+    st.session_state.qa_history.append({
+        'question': '',
+        'answer': 'How can I help you today?',
+        'docs': []
+    })
 
-with col1:
-    st.header("❓ Ask Questions")
-    
-    # Query
-    query = st.text_input("Enter your question about the documents", placeholder="What is the main topic?")
-    
-    if st.button("🚀 Get Answer", type="primary"):
-        if query:
-            if os.path.exists(CHROMA_DB_DIR):
-                try:
-                    rag_chain, retriever = get_rag_chain()
-                    
-                    # Generate the answer first
-                    result = rag_chain.invoke(query)
-                    
-                    # Check if the answer is a refusal or request for more context
-                    if result.strip() == "I cannot answer this question based on the provided documents.":
-                        st.subheader("🤖 Answer")
-                        st.error(result)
-                    elif result.strip() == "I need more context to answer this question. Please provide additional information.":
-                        # Retrieve and display context in right column
-                        retrieved_docs = retriever.invoke(query)
-                        with col2:
-                            st.header("📄 Retrieved Context")
-                            for i, doc in enumerate(retrieved_docs, 1):
-                                with st.expander(f"Chunk {i} - {doc.metadata.get('source', 'Unknown')}"):
-                                    st.write(doc.page_content)
-                        
-                        st.subheader("🤖 Answer")
-                        st.warning(result)
-                    else:
-                        # Retrieve and display context in right column
-                        retrieved_docs = retriever.invoke(query)
-                        with col2:
-                            st.header("📄 Retrieved Context")
-                            for i, doc in enumerate(retrieved_docs, 1):
-                                with st.expander(f"Chunk {i} - {doc.metadata.get('source', 'Unknown')}"):
-                                    st.write(doc.page_content)
-                        
-                        st.subheader("🤖 Answer")
-                        st.success(result)
-                except Exception as e:
-                    st.error(f"❌ Error generating answer: {e}")
-            else:
-                st.error("Vector store not found. Please process documents first.")
-        else:
-            st.error("Please enter a question")
+st.header("Indecimal AI assistant")
 
-with col2:
-    st.header("📄 Retrieved Context")
-    st.info("Relevant document chunks will appear here after asking a question.")
+# Show chat history (latest on top)
+for entry in reversed(st.session_state.qa_history):
+    with st.container():
+        st.markdown(f"**You:** {entry['question']}")
+        st.success(f"**AI:** {entry['answer']}")
+        if entry['docs']:
+            st.markdown("**Relevant chunks:**")
+            for i, doc in enumerate(entry['docs'], 1):
+                with st.expander(f"Chunk {i} - {doc.metadata.get('source', 'Unknown')}"):
+                    st.write(doc.page_content)
+
+with st.form(key="chat_form"):
+    query = st.text_input("Ask your question")
+    submit_button = st.form_submit_button("🚀 Send")
+
+if submit_button:
+    if not query:
+        st.error("Please enter a question")
+    elif not os.path.exists(CHROMA_DB_DIR):
+        st.error("Vector store not found. Please process documents first.")
+    else:
+        with st.spinner("AI is generating response..."):
+            try:
+                rag_chain, retriever = get_rag_chain()
+                answer = rag_chain.invoke(query)
+                retrieved_docs = retriever.invoke(query)
+
+                st.session_state.qa_history.append({
+                    'question': query,
+                    'answer': answer,
+                    'docs': retrieved_docs,
+                })
+
+                st.rerun()
+
+            except Exception as e:
+                st.error(f"❌ Error generating answer: {e}")
