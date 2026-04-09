@@ -53,12 +53,20 @@ The system enforces grounding through a carefully designed prompt template that:
 
 This approach ensures that all responses are directly supported by the retrieved document content, preventing hallucination and maintaining reliability.
 
-## Full Local Setup (LLM + RAG)
+## Full Local Setup (LLM + RAG) for faster querying and response generation
 
 ### Prerequisites
-
-- Python 3.10+ installed
+Note : I am using linux system for local set up. If you are running windows / mac, kindly refere to specific steps for set up on your platform.
+- Python 3.10+ and python3-venv package is present
+  Use follow commaond if not present
+  ```bash
+  sudo apt install python3 python3-venv
+  ```
 - Ollama installed and running (https://ollama.com/docs)
+  Use follow commaond if not present
+  ```bash
+  curl -fsSL https://ollama.com/install.sh | sh
+  ```
 
 ### 1. Clone and enter repository
 
