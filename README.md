@@ -57,12 +57,12 @@ This approach ensures that all responses are directly supported by the retrieved
 
 ### Prerequisites
 Note : I am using linux system for local set up. If you are running windows / mac, kindly refere to specific steps for set up on your platform.
-- Python 3.10+ and python3-venv package is present
+- Python 3.10+ and python3-venv package is present \
   Use follow commaond if not present
   ```bash
   sudo apt install python3 python3-venv
   ```
-- Ollama installed and running (https://ollama.com/docs)
+- Ollama installed and running (https://ollama.com/docs) \
   Use follow commaond if not present
   ```bash
   curl -fsSL https://ollama.com/install.sh | sh
