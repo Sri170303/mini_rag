@@ -56,7 +56,7 @@ This approach ensures that all responses are directly supported by the retrieved
 ## Full Local Setup (LLM + RAG) for faster querying and response generation
 
 ### Prerequisites
-Note : I am using linux system for local set up. If you are running windows / mac, kindly refer to specific steps for set up on your platform. \
+Note : I am using linux system for local set up. If you are running windows / mac, kindly refer to specific steps for set up on your platform. 
 - Python 3.10+ and python3-venv package is present \
   Use following command if not present
   ```bash
