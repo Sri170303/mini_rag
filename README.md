@@ -2,7 +2,6 @@
 
 A simple Retrieval-Augmented Generation (RAG) application built with Streamlit, LangChain, and Ollama for local document querying.
 
-Deployed on AWS:  [Link](http://16.16.206.237:8501/)
 ## Models Used
 
 ### Embedding Model: `nomic-embed-text`
